@@ -1,0 +1,9 @@
+CHIP Less{
+	IN a[16], b[16];
+    OUT out;
+	
+	PARTS:
+    Subtract(a = a, b = b, out = out1);
+	
+	And(a = out1[13], b = true, out = out);
+}

@@ -1,0 +1,7 @@
+CHIP Bit1 {
+    IN in[16];
+    OUT out[1];
+
+    PARTS:
+    Not(in=in[15], out=out[0]);
+}

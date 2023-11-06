@@ -4,6 +4,6 @@ CHIP Less{
 	
 	PARTS:
     Subtract(a = a, b = b, out = out1);
-	
-	And(a = out1[13], b = true, out = out);
+	Bit1(in = out1, out = out2);
+	Not(in = out2, out = out);
 }

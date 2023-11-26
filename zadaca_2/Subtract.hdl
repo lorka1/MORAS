@@ -1,0 +1,22 @@
+CHIP Subtract {
+    IN a[16], b[16];
+    OUT out[16];
+
+    PARTS:
+	HalfSubtractor(a=a[0], b=b[0], d=out[0], carry=c1);
+	FullSubtractor(a=a[1], b=b[1], c=c1, d=out[1], carry=c2);
+	FullSubtractor(a=a[2], b=b[2], c=c2, d=out[2], carry=c3);
+	FullSubtractor(a=a[3], b=b[3], c=c3, d=out[3], carry=c4);
+	FullSubtractor(a=a[4], b=b[4], c=c4, d=out[4], carry=c5);
+	FullSubtractor(a=a[5], b=b[5], c=c5, d=out[5], carry=c6);
+	FullSubtractor(a=a[6], b=b[6], c=c6, d=out[6], carry=c7);
+	FullSubtractor(a=a[7], b=b[7], c=c7, d=out[7], carry=c8);
+	FullSubtractor(a=a[8], b=b[8], c=c8, d=out[8], carry=c9);
+	FullSubtractor(a=a[9], b=b[9], c=c9, d=out[9], carry=c10);
+	FullSubtractor(a=a[10], b=b[10], c=c10, d=out[10], carry=c11);
+	FullSubtractor(a=a[11], b=b[11], c=c11, d=out[11], carry=c12);
+	FullSubtractor(a=a[12], b=b[12], c=c12, d=out[12], carry=c13);
+	FullSubtractor(a=a[13], b=b[13], c=c13, d=out[13], carry=c14);
+	FullSubtractor(a=a[14], b=b[14], c=c14, d=out[14], carry=c15);
+	FullSubtractor(a=a[15], b=b[15], c=c15, d=out[15], carry=c16);
+}

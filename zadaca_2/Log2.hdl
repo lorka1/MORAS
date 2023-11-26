@@ -1,0 +1,15 @@
+CHIP Log2{
+
+	IN in[16];
+	OUT out[16];
+
+	PARTS:
+
+	And(a=in[15], b=true, out=out1);
+	
+    Clz(in=in, out=clzOut);
+    
+    Subtract(a[0..3]=true, a[4..15]=false, b=clzOut, out=o1);    
+
+    Mux16(a=o1, b=true, sel=out1, out=out);
+}

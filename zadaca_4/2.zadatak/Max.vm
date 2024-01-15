@@ -1,0 +1,40 @@
+push constant 5
+push constant 1
+push constant 3
+call Max.max 3
+
+label END
+goto END
+
+function Max.max 3
+push argument 0 //a
+push argument 1 //b
+gt              //a > b
+if-goto a_gt_b // if a > b then go to a_gt_b
+
+push argument 2 //c
+push argument 1 //b
+gt //c > b
+if-goto return_c
+
+goto return_b
+
+label a_gt_b
+push argument 2  //c
+push argument 0  //a
+gt               // c > a
+if-goto return_c
+
+goto return_a
+
+label return_c
+push argument 2
+return
+
+label return_a
+push argument 0
+return
+
+label return_b
+push argument 1
+return

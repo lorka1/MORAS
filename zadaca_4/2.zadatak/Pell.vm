@@ -1,0 +1,63 @@
+push constant 4
+call Pell.pell 1
+
+label END
+goto END
+
+function Pell.pell 3
+push argument 0      // push to [0]
+push constant 0      // push number 0
+eq                  // compare [0] to 0
+if-goto _zero      // if they are equal go to label _zero 
+                    // if not, continue to the next line 
+push argument 0     // push to [0]
+push constant 1     // push number 1 
+eq                  // compare [0] to 1
+if-goto _one        // if they are equal go to label _one
+                    // if not, continue to the next line 
+push constant 2     
+pop local 0         // pop the from top of the stack and store it locally at [0]
+push constant 0     
+pop local 1         // pop the from top of the stack and store it locally at [1]
+push constant 1
+pop local 2         // pop the from top of the stack and store it locally at [2]
+
+label loop_start
+push argument 0     // push to [0] 
+push local 0        // push the value stored locally from [0]
+eq                  // compare them 
+if-goto loop_end    // if they are equal go to loop_end
+                    // if not, go to the next line
+push constant 1     
+push local 0        // push the value stored locally from [0]
+add                 // 1 + [0]
+pop local 0         // pop from top of the stack and store it locally at [0]
+
+push local 1        
+push local 2
+push local 2        // duplicate the value stored locally at [2]
+push local 2
+pop local 1
+add                  
+add
+pop local 2
+
+goto loop_start
+
+label loop_end
+
+push local 2
+push local 2
+add
+push local 1
+add
+return
+
+label _zero
+push constant 0
+return
+
+label _one
+push constant 1
+return
+

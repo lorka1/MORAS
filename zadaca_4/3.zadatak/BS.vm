@@ -1,0 +1,88 @@
+push constant 2048
+pop pointer 1
+push constant 1
+pop that 0
+push constant 2
+pop that 1
+push constant 3
+pop that 2
+push constant 4
+pop that 3
+push constant 5
+pop that 4
+
+push constant 2048
+push constant 5
+push constant 2
+call BS.search 3
+
+label END
+goto END
+
+
+function BS.search 3
+push constant 0
+pop local 0
+
+push argument 1
+push constant 1
+sub
+pop local 1
+
+label _loop
+push local 0
+push local 1
+gt
+if-goto _end
+
+push local 0
+push local 1 
+add
+push constant 2
+call Div.div 2
+pop local 2
+
+push local 2 
+push argument 0
+add
+
+pop pointer 1
+push that 0
+push argument 2
+eq
+if-goto _done
+
+push local 2 
+push argument 0
+add
+pop pointer 1
+push that 0
+push argument 2
+gt
+if-goto _higher
+
+goto _lower
+
+
+label _end
+push constant 1 
+neg
+return
+
+label _done
+push local 2 
+return
+
+label _higher
+push local 2
+push constant 1 
+sub 
+pop local 1
+goto _loop
+
+label _lower
+push local 2
+push constant 1 
+add 
+pop local 0
+goto _loop

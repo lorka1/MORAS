@@ -1,0 +1,32 @@
+push constant 5
+push constant 2
+call Div.div 2
+
+label END
+goto END
+
+function Div.div 2
+push constant 0
+pop local 0
+push argument 0
+pop local 1 
+
+label _loop
+push local 1 
+push argument 1
+lt
+if-goto _end
+
+push local 0
+push constant 1 
+add
+pop local 0
+push local 1
+push argument 1
+sub
+pop local 1
+goto _loop
+
+label _end
+push local 0
+return

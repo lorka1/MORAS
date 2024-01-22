@@ -1,0 +1,38 @@
+class Main{
+	
+
+	function void main(){
+	    var vint x, y;
+	    let x = vint.new(2);
+	    let y = vint.new(2);
+	    do x.set(0, 1);
+        do x.set(1, 3);
+        do x.set(2, 7);
+        do x.set(3, 9);
+
+        do y.set(0, 8);
+        do y.set(1, 6);
+        do y.set(2, 5);
+        do y.set(3, 9);
+
+	   
+	    if(vint.is_eq(x, y)){
+	      do Output.printString("true");
+	    } 
+	    else {
+	      do Output.printString("false");
+	    }
+	    do Output.println();
+
+	   
+	    if(vint.elems(x, y)){
+	      do Output.printString("true");
+	    } 
+	    else {
+	      do Output.printString("false");
+	    }
+	    do Output.println();
+	    
+	    return;
+	  }
+}

@@ -1,0 +1,86 @@
+class vint {
+  field Array A;
+  field int capacity;
+  constructor vint new(int n) {
+    let capacity = 1;
+    if(~(n < 0)){
+      while(n > 0){
+        let capacity = capacity * 2;
+        let n = n - 1;
+      }
+    }
+    let A = Array.new(capacity); 
+    return this;
+  }
+  method Array get_arr(){
+    return A;
+  }
+  method int len() {
+    return capacity;
+  }
+  method void set(int k, int v){
+    let A[k] = v;
+    return;
+  }
+  method int get(int k){
+    return A[k];
+  }
+  method void resize(int m){
+    var int temp, i;
+    var Array B;
+    let temp = capacity;
+    let capacity = 1;
+    if(~(m < 0)){
+      while(m > 0){
+        let capacity = capacity * 2;
+        let m = m - 1;
+      }
+    }
+    let B = Array.new(capacity);
+    let i = 0;
+    while(i < temp){
+      let B[i] = A[i];
+      let i = i + 1;
+    }
+    let A = B;
+    do B.dispose();
+    return;
+  }
+
+  function bool is_eq(vint a, vint b){
+    var int i;
+    if(~(a.len() = b.len())) {
+      return false;
+    }
+    let i = 0;
+    while(i < a.len()){
+      if(~(a[i] = b[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function bool elems(vint a, vint b){
+    var Array A, B;
+    var int i, j, n;
+    var bool res;
+    if(~(a.len() = b.len())) {
+      return false;
+    }
+    let A = a.get_arr();
+    let B = b.get_arr();
+    let A = QSort.sort(A, a.len());
+    let B = QSort.sort(B, b.len());
+    let i = 0;
+    let res = true;
+    while(i < n){
+      if(~(A[i] = B[i])) {
+        let res = false;
+      }
+      let i = i + 1;
+    }
+    do A.dispose();
+    do B.dispose();
+    return res;
+  }
+}

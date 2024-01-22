@@ -1,0 +1,33 @@
+class Main {
+	
+   	function void main() {
+
+     var Array a; 
+     var int length;
+     var int i, sum;
+     let length = Keyboard.readInt("Type length");
+     let a = Array.new(length);
+     let i = 0;
+
+     while (i < length) {
+
+        let a[i] = Keyboard.readInt("Enter number: ");
+       	let i = i+1;
+
+     }
+     do QSort.quicksort(a, 0, length-1);
+     let i = 0;
+
+     while (i < length) {
+
+       	do Output.printInt(a[i]);
+       	do Output.printString(" ");
+       	let i = i+1;
+
+     }
+     
+     return;
+
+   }
+
+}

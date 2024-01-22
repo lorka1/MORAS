@@ -1,0 +1,41 @@
+// pozitivan dio x osi je desno
+// pozitivan dio y osi je dolje
+
+class Main {
+  function void main() {
+    do Screen.setColor(true);
+    do Screen.drawLine(0, 0, 255, 0);
+    do Screen.drawLine(0, 0, 0, 255);
+    do Screen.drawLine(255, 0, 255, 255);
+    do Screen.drawLine(0, 255, 255, 255);
+    do Screen.drawLine(128, 0, 128, 255);
+    do Screen.drawLine(0, 128, 255, 128);
+    do Main.drawFunction();
+    return;
+  }
+  function void drawFunction(){
+    var int x, fx, fx2, i, j, interpolated;
+    let i = 0;
+    let j = 0;
+    while(i < 256){
+      let x = i * 64 / 256;
+      let fx = Main.f(x-32) + 32;
+      let fx2 = Main.f(x-31) + 32;
+      let interpolated = fx*4 + ((fx2-fx)*j);
+      do Screen.drawPixel(i, interpolated);
+      let i = i + 1;
+      let j = j + 1;
+      if(j = 4) {
+        let j = 0;
+      }
+    }
+    return;
+  }
+  function int f(int x){
+    if(x*x > 32){
+      return x;
+    } else {
+      return x*x;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+class QSort{
+	function int partition(Array A, int p, int r){
+        var int x, i, j, swap;
+        let x = A[r];
+        let i = p - 1;
+        let j = p;
+        while(j < r){
+            if( ~(A[j] > x)){
+
+            let i = i + 1;
+            let swap = A[j];
+            let A[j] = A[i];
+            let A[i] = swap;
+            }
+            let j = j+1;
+        }
+        let swap = A[i+1];
+        let A[i+1] = A[r];
+        let A[r] = swap;
+        return i+1;
+
+    }
+
+	function void quicksort(Array A, int p, int r){
+		var int q;
+		if(p < r){
+			let q = QSort.partition(A, p, r);
+			do QSort.quicksort(A, p, q-1);
+			do QSort.quicksort(A, q, r);
+
+		}
+
+		return;
+
+	}
+}

@@ -4,6 +4,6 @@ CHIP FullSubtractor {
 
     PARTS:
     HalfSubtractor(a=a, b=b, d=dab, carry=carryab);
-    HalfSubtractor(a=dab, b=c, d=d, carry=c);
-    Or(a=c, b=carryab, out=carry);
+    HalfSubtractor(a=dab, b=c, d=d, carry=temp);
+    Or(a=temp, b=carryab, out=carry);
 }

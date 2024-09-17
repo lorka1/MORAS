@@ -1,0 +1,56 @@
+class Main {
+    function void main() {
+        var Cube cube;
+        var bool finished, started;
+        var int key, prevKey;
+        var int A, B, C;
+        let A = 0;
+        let B = 0;
+        let C = 0;
+        let cube = Cube.new(); 
+        do Screen.clearScreen();
+        let finished = false;
+        let started = false;
+        let prevKey = 0;
+
+        do Output.moveCursor(0, 0);
+        do Output.printString("Press Enter");
+        do Output.println(); 
+
+        do Output.printString("Press ESC to stop");
+        do Output.println();
+
+        while (~finished) {
+            let key = Keyboard.keyPressed();
+            if (~started) {
+                if (key = 128) { // Enter key
+                    let started = true;
+                    do Screen.clearScreen();
+                }
+            } else {
+                if (key = 140) { let finished = true; }  // ESC key
+                if (key = 131) { let A =  A + 4; }       // Up arrow
+                if (key = 133) { let A =  A - 4; }       // Down arrow
+                if (key = 132) { let B =  B - 4; }       // Right arrow
+                if (key = 130) { let B =  B + 4; }       // Left arrow
+                if (key = 87)  { let C =  C + 4; }       // 'W' key
+                if (key = 83)  { let C =  C - 4; }       // 'S' key
+
+                if ((key > 0) | (prevKey = 0)) {
+                    do Screen.clearScreen();
+                    do cube.draw(A, B, C);
+                    do Output.moveCursor(21, 16);
+                    do Output.printString("'W' and 'S': rotate around z-axis");
+                    do Output.println();
+                }
+
+                let prevKey = key;
+            }
+
+            do Sys.wait(70);
+        }
+
+        do cube.dispose();
+        return;
+    }
+}

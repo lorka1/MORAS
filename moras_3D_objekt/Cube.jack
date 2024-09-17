@@ -1,0 +1,211 @@
+class Cube {
+    field Trig trig;
+    static Array vertices;
+    field int size;
+    field int screenCenterX, screenCenterY, screenCenterZ;
+    field int cubeCenterX, cubeCenterY, cubeCenterZ;
+    field int halfHeight, halfWidth;
+    field int scalingFactorX, scalingFactorY;
+    field int focalLength;
+
+    constructor Cube new() {
+        let halfWidth = 256;
+        let halfHeight = 128;
+        let size = 50;
+        let scalingFactorX = 3;
+        let scalingFactorY = 2;
+        let screenCenterX = halfWidth;
+        let screenCenterY = halfHeight;
+        let screenCenterZ = 0;
+        
+        let cubeCenterX = screenCenterX;
+        let cubeCenterY = screenCenterY;
+        let cubeCenterZ = screenCenterZ;
+
+        let focalLength = 200;  
+
+        let vertices = Array.new(8 * 3);
+
+        do initializeVertices();
+
+        let trig = Trig.new();
+        return this;
+    }
+    method void initializeVertices() {
+        var int halfSize, quarterSize;
+        let halfSize = size / 2;
+        let quarterSize = size / 4;
+
+        let vertices[0*3] = cubeCenterX - halfSize;
+        let vertices[0*3 + 1] = cubeCenterY - halfSize;
+        let vertices[0*3 + 2] = cubeCenterZ - halfSize;
+
+        let vertices[1*3] = cubeCenterX + halfSize;
+        let vertices[1*3 + 1] = cubeCenterY - halfSize;
+        let vertices[1*3 + 2] = cubeCenterZ - halfSize;
+
+        let vertices[2*3] = cubeCenterX + halfSize;
+        let vertices[2*3 + 1] = cubeCenterY + halfSize;
+        let vertices[2*3 + 2] = cubeCenterZ - halfSize;
+
+        let vertices[3*3] = cubeCenterX - halfSize;
+        let vertices[3*3 + 1] = cubeCenterY + halfSize;
+        let vertices[3*3 + 2] = cubeCenterZ - halfSize;
+
+        let vertices[4*3] = cubeCenterX - halfSize;
+        let vertices[4*3 + 1] = cubeCenterY - halfSize;
+        let vertices[4*3 + 2] = cubeCenterZ + halfSize;
+
+        let vertices[5*3] = cubeCenterX + halfSize;
+        let vertices[5*3 + 1] = cubeCenterY - halfSize;
+        let vertices[5*3 + 2] = cubeCenterZ + halfSize;
+
+        let vertices[6*3] = cubeCenterX + halfSize;
+        let vertices[6*3 + 1] = cubeCenterY + halfSize;
+        let vertices[6*3 + 2] = cubeCenterZ + halfSize;
+
+        let vertices[7*3] = cubeCenterX - halfSize;
+        let vertices[7*3 + 1] = cubeCenterY + halfSize;
+        let vertices[7*3 + 2] = cubeCenterZ + halfSize;
+
+        return;
+    }
+
+    method void rotateX(int x, int y, int z, int A, Array ret) {
+        var int s, c; 
+        var int newY, newZ;
+        let c = trig.cos(A);
+        let s = trig.sin(A);
+        let y = y - cubeCenterY;
+        let z = z - cubeCenterZ;
+        let newY = ((y*c) - (z*s))/100;
+        let newZ = ((y*s) + (z*c))/100;
+        let ret[0] = x;
+        let ret[1] = newY + cubeCenterY;
+        let ret[2] = newZ + cubeCenterZ;
+        return;
+    }
+    
+    method void rotateY(int x, int y, int z, int B, Array ret) {
+        var int s, c;
+        var int newX, newZ;
+        let c = trig.cos(B);
+        let s = trig.sin(B);
+        let x = x - cubeCenterX;
+        let z = z - cubeCenterZ;
+        let newX = ((z*s) + (x*c))/100;
+        let newZ = ((z*c) - (x*s))/100;
+        let ret[0] = newX + cubeCenterX;
+        let ret[1] = y;
+        let ret[2] = newZ + cubeCenterZ;
+        return;
+    }
+
+    method void rotateZ(int x, int y, int z, int C, Array ret) {
+        var int s, c;
+        var int newX, newY;
+        let c = trig.cos(C);
+        let s = trig.sin(C);
+        let x = x - cubeCenterX;
+        let y = y - cubeCenterY;
+        let newX = ((x*c) - (y*s))/100;
+        let newY = ((x*s) + (y*c))/100;
+        let ret[0] = newX + cubeCenterX;
+        let ret[1] = newY + cubeCenterY;
+        let ret[2] = z;
+        return;
+    }
+
+    method void rotate(Array coords, int A, int B, int C) {
+        do rotateX(coords[0], coords[1], coords[2], A, coords);
+        do rotateY(coords[0], coords[1], coords[2], B, coords);
+        do rotateZ(coords[0], coords[1], coords[2], C, coords);
+        return;
+    }
+    
+    method void project(Array coords) {
+        var int x, y, z;
+        var int projectedX, projectedY;
+        var int distance;
+        let x = coords[0] - cubeCenterX;
+        let y = coords[1] - cubeCenterY;
+        let z = coords[2] - cubeCenterZ;
+
+        let distance = focalLength - z;
+        if (distance = 0) { let distance = 1; }  // Prevent division by zero
+        let projectedX = (x * focalLength) / distance;
+        let projectedY = (y * focalLength) / distance;
+
+        let coords[0] = (projectedX * scalingFactorX) + cubeCenterX;
+        let coords[1] = (projectedY * scalingFactorY) + cubeCenterY;
+        return;
+    }
+
+    method void draw(int A, int B, int C) {
+        var int halfSize;
+        var Array rotated;
+        var Array temp;
+        var int x1,x2,x3,x4,x5,x6,x7,x8, y1, y2, y3, y4, y5, y6, y7, y8;
+        var int i;
+       
+        let halfSize = size / 2;
+        let rotated = Array.new(8*3);
+        let temp = Array.new(3);
+
+        let i = 0;
+        while(i < 8){
+            let temp[0] = vertices[i*3];
+            let temp[1] = vertices[i*3 + 1];
+            let temp[2] = vertices[i*3 + 2];
+            do rotate(temp, A, B, C);
+            do project(temp);
+            let rotated[i*3] = temp[0];
+            let rotated[i*3 + 1] = temp[1];
+            let rotated[i*3 + 2] = temp[2];
+            let i = i + 1;
+        }
+
+        let x1 = rotated[0*3];
+        let x2 = rotated[1*3];
+        let x3 = rotated[2*3];
+        let x4 = rotated[3*3];
+        let x5 = rotated[4*3];
+        let x6 = rotated[5*3];
+        let x7 = rotated[6*3];
+        let x8 = rotated[7*3];
+        
+        let y1 = rotated[0*3 + 1];
+        let y2 = rotated[1*3 + 1];
+        let y3 = rotated[2*3 + 1];
+        let y4 = rotated[3*3 + 1];
+        let y5 = rotated[4*3 + 1];
+        let y6 = rotated[5*3 + 1];
+        let y7 = rotated[6*3 + 1];
+        let y8 = rotated[7*3 + 1];
+
+        do Screen.drawLine(x1, y1, x2, y2);
+        do Screen.drawLine(x2, y2, x3, y3);
+        do Screen.drawLine(x3, y3, x4, y4);
+        do Screen.drawLine(x4, y4, x1, y1);
+
+        do Screen.drawLine(x5, y5, x6, y6);
+        do Screen.drawLine(x6, y6, x7, y7);
+        do Screen.drawLine(x7, y7, x8, y8);
+        do Screen.drawLine(x8, y8, x5, y5);
+
+        do Screen.drawLine(x5, y5, x1, y1);
+        do Screen.drawLine(x6, y6, x2, y2);
+        do Screen.drawLine(x7, y7, x3, y3);
+        do Screen.drawLine(x8, y8, x4, y4);
+        do rotated.dispose();
+        do temp.dispose();
+        return;
+    }
+    
+    method void dispose() {
+        do trig.dispose();
+        do Memory.deAlloc(this);
+
+        return;
+    }
+}
